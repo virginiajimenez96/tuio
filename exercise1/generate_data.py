@@ -69,7 +69,10 @@ def generate_claims(policy_ids, max_claim_per_policy=10):
     claims_data = []
 
     for policy_id, customer_id in policy_ids:
-        num_claims = random.randint(0, max_claim_per_policy)
+        num_claims = random.choices(
+            [0, 1, 2, 3, 4, 5], 
+            weights=[0.65, 0.15, 0.10, 0.05, 0.03, 0.02], 
+        )[0]
         for _ in range(num_claims):
             claims_data.append(
                 {
