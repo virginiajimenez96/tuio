@@ -7,3 +7,5 @@ jupyter
 xgboost
 matplotlib
 scipy
+meteostat
+geopy
