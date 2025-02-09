@@ -12,11 +12,11 @@ El objetivo era predecir la probabilidad de que un cliente presente una reclamac
 
 Al entrenar los tres modelos con unos parámetros iniciales escogidos al azar, los resultados son:
 
-| Model                   | Precision | Recall | F1-Score | ROC-AUC |
-|-------------------------|-----------|--------|----------|---------|
-| **Logistic Regression** | 0.444     | 0.333  | 0.381    | 0.581   |
-| **Random Forest**       | 0.750     | 0.500  | 0.600    | 0.836   |
-| **XGBoost**             | 0.773     | 0.690  | 0.730    | 0.878   |
+| Model                | Precision | Recall | F1-Score | ROC-AUC |
+|----------------------|-----------|--------|----------|---------|
+| Logistic Regression  | 0.537     | 0.483  | 0.509    | 0.579   |
+| Random Forest        | 0.833     | 0.674  | 0.745    | 0.859   |
+| XGBoost              | 0.758     | 0.843  | 0.798    | 0.864   |
 
 - Logistic regression:
   - Tiene un mal resultado, lo que nos indica que no es un buen modelo para este problema.
@@ -26,7 +26,7 @@ Al entrenar los tres modelos con unos parámetros iniciales escogidos al azar, l
 
 - Random forest:
   - Mejora con respecto a logistic regression.
-  - Recall de 0.5 indica que tendría falsos negativos.
+  - Recall de 0.674 indica que tendría falsos negativos.
   - Aún tiene margen de mejora.
 
 - XGBoost:
@@ -40,12 +40,12 @@ Para mejorar el rendimiento de los modelos que mejor se han comportado (random f
 
 Después de encontrar los parámetros óptimos, los resultados han sido:
 
-| Model             | Precision | Recall | F1-Score | ROC-AUC |
-|-------------------|-----------|--------|----------|---------|
-| **Random Forest** | 0.797     | 0.655  | 0.719    | 0.862   |
-| **XGBoost**       | 0.837     | 0.857  | 0.847    | 0.931   |
+| Model          | Precision | Recall | F1-Score | ROC-AUC |
+|----------------|-----------|--------|----------|---------|
+| Random Forest  | 0.793     | 0.820  | 0.807    | 0.918   |
+| XGBoost        | 0.880     | 0.910  | 0.895    | 0.949   |
 
-- XGBoost igue siendo el mejor modelo y mejora un poco su recall y F1-Score.
+- XGBoost sigue siendo el mejor modelo y mejora un poco su recall y F1-Score.
 - Random forest mejora su recall, detectando más reclamaciones que antes.
 - Los valores de XGBoost después del ajuste pueden indicar overfitting.
   
