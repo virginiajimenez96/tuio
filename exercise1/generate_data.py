@@ -32,13 +32,14 @@ def generate_customers(n):
 
 def generate_policies(customer_ids, max_policies=3, min_policies=1):
     policies_data = []
-    policy_ids = []
+    policy_info = []
 
     for customer_id in customer_ids:
         num_policies = random.randint(min_policies, max_policies)
         for _ in range(num_policies):
             policy_id = f"P-{fake.uuid4()}"
-            policy_ids.append((customer_id, policy_id))
+            policy_creation_date = fake.date_between(start_date="-5y")
+            policy_info.append((customer_id, policy_id, policy_creation_date))
 
             policies_data.append(
                 {
@@ -55,23 +56,23 @@ def generate_policies(customer_ids, max_policies=3, min_policies=1):
                     ),
                     "created_at": random.choices(
                         [
-                            fake.date_between(start_date="-5y").isoformat(),
+                            policy_creation_date.isoformat(),
                             None,
                         ],
                         weights=[0.9, 0.1],
                     )[0],
                 }
             )
-    return policies_data, policy_ids
+    return policies_data, policy_info
 
 
-def generate_claims(policy_ids):
+def generate_claims(policy_info):
     claims_data = []
 
-    for customer_id, policy_id in policy_ids:
+    for customer_id, policy_id, creation_date in policy_info:
         num_claims = random.choices(
-            [0, 1, 2, 3, 4, 5], 
-            weights=[0.65, 0.15, 0.10, 0.05, 0.03, 0.02], 
+            [0, 1, 2, 3, 4, 5],
+            weights=[0.65, 0.15, 0.10, 0.05, 0.03, 0.02],
         )[0]
         for _ in range(num_claims):
             claims_data.append(
@@ -81,8 +82,7 @@ def generate_claims(policy_ids):
                     "policy_id": policy_id,
                     "claim_date": random.choices(
                         [
-                            fake.date_between(start_date="-5y").isoformat()
-                            ,
+                            fake.date_between(start_date=creation_date).isoformat(),
                             None,
                         ],
                         weights=[0.9, 0.1],
