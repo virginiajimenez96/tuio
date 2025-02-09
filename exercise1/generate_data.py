@@ -55,7 +55,7 @@ def generate_policies(customer_ids, max_policies=3, min_policies=1):
                     ),
                     "created_at": random.choices(
                         [
-                            fake.date_between(start_date="-10y").isoformat(),
+                            fake.date_between(start_date="-5y").isoformat(),
                             None,
                         ],
                         weights=[0.9, 0.1],
@@ -65,10 +65,10 @@ def generate_policies(customer_ids, max_policies=3, min_policies=1):
     return policies_data, policy_ids
 
 
-def generate_claims(policy_ids, max_claim_per_policy=10):
+def generate_claims(policy_ids):
     claims_data = []
 
-    for policy_id, customer_id in policy_ids:
+    for customer_id, policy_id in policy_ids:
         num_claims = random.choices(
             [0, 1, 2, 3, 4, 5], 
             weights=[0.65, 0.15, 0.10, 0.05, 0.03, 0.02], 
@@ -81,7 +81,7 @@ def generate_claims(policy_ids, max_claim_per_policy=10):
                     "policy_id": policy_id,
                     "claim_date": random.choices(
                         [
-                            fake.date_between(start_date="-10y").isoformat()
+                            fake.date_between(start_date="-5y").isoformat()
                             ,
                             None,
                         ],
@@ -117,7 +117,7 @@ def save_json(data, filename):
 
 
 if __name__ == "__main__":
-    customers, customer_ids = generate_customers(50)
+    customers, customer_ids = generate_customers(500)
 
     data_dir = "data"
     save_json(customers, f"{data_dir}/customers.json")

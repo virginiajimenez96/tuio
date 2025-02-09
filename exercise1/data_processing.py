@@ -133,7 +133,7 @@ def main():
     )
 
     # Display cleaned dataset info
-    for name, df in zip(categories, df_names):
+    for name, df in zip(categories, [customers_df, policies_df, claims_df, risk_indicators_df]):
         print(f"{name} data overview after cleaning: ")
         print(f"{df.info()}\n")
 
@@ -157,7 +157,7 @@ def main():
     engine = create_engine(DB_URL)
     # Save cleaned data to PostgreSQL
 
-    for name, df in zip(categories, df_names):
+    for name, df in zip(categories, [customers_df, policies_df, claims_df, risk_indicators_df]):
         save_to_postgres(df, name, engine)
     print("Data successfully loaded into PostgreSQL!")
 
