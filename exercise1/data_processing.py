@@ -24,17 +24,20 @@ def clean_df(df, categorical_cols=None, numerical_cols=None, date_cols=None):
 
     # Fill missing values
     if categorical_cols:
+        # replace missing values with default value
         for col in categorical_cols:
             df[col] = df[col].fillna("unknown")
             # remove leading and trailing spaces and convert to lowercase
             df[col] = df[col].str.strip().str.lower()
     if numerical_cols:
+        # replace missing numerical values by column average
         df[numerical_cols] = (
             df[numerical_cols]
             .apply(pd.to_numeric, errors="coerce")
             .fillna(df[numerical_cols].mean().round(2))
         )
     if date_cols:
+        # replace missing dates by default value
         for col in date_cols:
             df[col] = pd.to_datetime(df[col], errors="coerce")
             df[col] = df[col].fillna(pd.Timestamp("2020-01-01"))
@@ -96,11 +99,13 @@ def create_database(db_name, user_name, password, host, port):
         conn.autocommit = True
         cursor = conn.cursor()
 
-        sql_query = f'''CREATE database {db_name}''';
+        # check if database already exists in postgresql
         db_exists_query = f'''SELECT datname FROM pg_catalog.pg_database where datname = \'{db_name}\'''';
         cursor.execute(db_exists_query)
         db_exists = cursor.fetchall()
 
+        # create database
+        sql_query = f'''CREATE database {db_name}''';
         if db_exists:
             print(f"Database '{db_name}' already exists.")
         else:
@@ -121,6 +126,7 @@ def main():
 
     categories = ["customers", "policies", "claims", "risk_indicators"]
     df_names = [customers_df, policies_df, claims_df, risk_indicators_df]
+
     # Display initial datasets information
     for name, df in zip(categories, df_names):
         print(f"{name} data overview before cleaning: ")
@@ -155,8 +161,8 @@ def main():
     DB_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
     engine = create_engine(DB_URL)
+    
     # Save cleaned data to PostgreSQL
-
     for name, df in zip(categories, [customers_df, policies_df, claims_df, risk_indicators_df]):
         save_to_postgres(df, name, engine)
     print("Data successfully loaded into PostgreSQL!")
